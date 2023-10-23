@@ -1,6 +1,6 @@
-<p>#Biorecycling of phosphate by yeasts#
-##Context##
-*Phosphorus* is present in combined form as phosphate. Phosphorus is a key resource because it is an essential component of living cells and has industrial and agricultural uses. 
+# Biorecycling of phosphate by yeasts
+## Context
+[Phosphorus](https://en.wikipedia.org/wiki/Phosphorus) is present in combined form as phosphate. *Phosphorus* is a key resource because it is an essential component of living cells and has industrial and agricultural uses. 
 
 They are also used as food additives or in meat and poultry products to improve yield, texture and moisture retention, and as thickening agents in dairy products. Moreover, phosphorus is used in Light electric vehicles for batteries.
 
@@ -18,5 +18,5 @@ Moreover, the effluent from aquaculture and other concentrated animal feed opera
 The aim of this project is  to find a sustainable alternative to reduce the environmental impact of agriculture to limit water pollution and ecosystem disruption. 
 Our research could also lead to the development of a circular system in which phosphate is reused to turn it into polyphosphate and then be able to use it elsewhere. For instance, in the industry, or to feed plants, or fire prevention.
 
-![Link to iStock] (https://media.istockphoto.com/id/1364257858/vector/the-eutrophication-process.jpg?s=612x612&w=0&k=20&c=L4tw41FM-Cs_r7tPuiy_yOTLMI7n-xns-fvKog9bztU=)</p>
+![Link to iStock] ([https://media.istockphoto.com/id/1364257858/vector/the-eutrophication-process.jpg?s=612x612&w=0&k=20&c=L4tw41FM-Cs_r7tPuiy_yOTLMI7n-xns-fvKog9bztU=](https://media.istockphoto.com/id/1364257858/fr/vectoriel/le-processus-deutrophisation.jpg?s=2048x2048&w=is&k=20&c=OsrzkpzY5-cLleOh96KauyVMCI77MqoRyxQE1jf2DrQ=)https://media.istockphoto.com/id/1364257858/fr/vectoriel/le-processus-deutrophisation.jpg?s=2048x2048&w=is&k=20&c=OsrzkpzY5-cLleOh96KauyVMCI77MqoRyxQE1jf2DrQ=)</p>
 
