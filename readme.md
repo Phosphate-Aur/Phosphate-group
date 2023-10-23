@@ -18,5 +18,5 @@ Moreover, the effluent from aquaculture and other concentrated animal feed opera
 The aim of this project is  to find a sustainable alternative to reduce the environmental impact of agriculture to limit water pollution and ecosystem disruption. 
 Our research could also lead to the development of a circular system in which phosphate is reused to turn it into polyphosphate and then be able to use it elsewhere. For instance, in the industry, or to feed plants, or fire prevention.
 
-![Link to iStock] ([https://media.istockphoto.com/id/1364257858/vector/the-eutrophication-process.jpg?s=612x612&w=0&k=20&c=L4tw41FM-Cs_r7tPuiy_yOTLMI7n-xns-fvKog9bztU=](https://media.istockphoto.com/id/1364257858/fr/vectoriel/le-processus-deutrophisation.jpg?s=2048x2048&w=is&k=20&c=OsrzkpzY5-cLleOh96KauyVMCI77MqoRyxQE1jf2DrQ=)https://media.istockphoto.com/id/1364257858/fr/vectoriel/le-processus-deutrophisation.jpg?s=2048x2048&w=is&k=20&c=OsrzkpzY5-cLleOh96KauyVMCI77MqoRyxQE1jf2DrQ=)</p>
+![Image](https://www.thespruce.com/thmb/u6g42X4_hEzB4TOkBKuqU1jkPQg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/briefing-eutrophication-and-algal-blooms-1708728-V1-4d7501b3352c43929898f37659419665.jpg)</p>
 
