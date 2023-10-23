@@ -4,7 +4,7 @@
 
 They are also used as food additives or in meat and poultry products to improve yield, texture and moisture retention, and as thickening agents in dairy products. Moreover, phosphorus is used in Light electric vehicles for batteries.
 
-Above all, one of the major use is the production of nutrients in the agricultural field. The major issue is that it is a declining resource and that our consumption is exceeding the natural regeneration rates.
+*Above all*, one of the major use is the production of nutrients in the agricultural field. The major issue is that it is a declining resource and that our consumption is exceeding the natural regeneration rates.
 
 Phosphorus has two origins : phosphate rocks and organisms. The transformation of phosphate rock into usable phosphates involves the use of sulfuric acid, which in turn depends on resources obtained from mining and the petroleum and gas industries. Furthermore, the process often relies on the combustion of fossil fuels, contributing to environmental issues, especially for transformation into fertilizers.
 As we saw in an article, 70% of the reserve is located in Morocco, which can create geopolitical, economical and social issues in the future.
