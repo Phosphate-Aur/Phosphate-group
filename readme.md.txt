@@ -1,4 +1,4 @@
-#Biorecycling of phosphate by yeasts#
+<p>#Biorecycling of phosphate by yeasts#
 ##Context##
 *Phosphorus* is present in combined form as phosphate. Phosphorus is a key resource because it is an essential component of living cells and has industrial and agricultural uses. 
 
@@ -18,4 +18,5 @@ Moreover, the effluent from aquaculture and other concentrated animal feed opera
 The aim of this project is  to find a sustainable alternative to reduce the environmental impact of agriculture to limit water pollution and ecosystem disruption. 
 Our research could also lead to the development of a circular system in which phosphate is reused to turn it into polyphosphate and then be able to use it elsewhere. For instance, in the industry, or to feed plants, or fire prevention.
 
-![Link to iStock] (https://media.istockphoto.com/id/1364257858/vector/the-eutrophication-process.jpg?s=612x612&w=0&k=20&c=L4tw41FM-Cs_r7tPuiy_yOTLMI7n-xns-fvKog9bztU=)
+![Link to iStock] (https://media.istockphoto.com/id/1364257858/vector/the-eutrophication-process.jpg?s=612x612&w=0&k=20&c=L4tw41FM-Cs_r7tPuiy_yOTLMI7n-xns-fvKog9bztU=)</p>
+
