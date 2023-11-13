@@ -1,1 +1,3 @@
+## IMPORTATION OF THE DATA
 
+data <- 
