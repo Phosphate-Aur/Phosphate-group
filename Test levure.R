@@ -27,6 +27,24 @@ ggplot(data=data_subset_0.1,aes(name,value,color=Concentration))+
   theme_bw()+
   geom_smooth()
 
+##METHODE HAMPEL
+k= 3 
+# calcule la borne inf de l'intervalle binf
+binf <- median(data_subset_0.1$value) - k * mad (data_subset_0.1$value) 
+binf 
+# calcule la borne sup de l'intervalle bsup 
+bsup <- median(data_subset_0.1$value) + k * mad (data_subset_0.1$value) 
+bsup
+outlier_idx <- which(data_subset_0.1$value < binf | data_subset_0.1$value > bsup)
+outlier_idx
+
+  outlier_val <- suv[outlier_idx,"value"]
+outlier_val
+
+##TEST STAT DE GRUBBS
+library(outliers) 
+grubbs.test(data_subset_0.1$value, opposite = TRUE)
+
 
 mod<-lm(value~name,data=data_subset_0.1)
 anova(mod)
@@ -38,3 +56,16 @@ ggplot(data=data_subset_0.4,aes(name,value,color=Concentration))+
   geom_point()+
   theme_bw()+
   geom_smooth()
+
+colnames(data_2)[colnames(data_2) == "value"] <- "Absorbance"
+colnames(data_2)[colnames(data_2) == "name"] <- "Temps"
+
+courbe<-read.csv(file="courbe_etalon.csv",sep=";")
+courbe$Absorbance<-as.numeric(courbe$Absorbance)
+courbe$Concentration<-as.numeric(courbe$Concentration)
+
+ggplot(data=courbe,aes(Concentration,Absorbance,color=Concentration))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth(method = "lm", se = FALSE,   # Ajuster une régression linéaire sans intervalle de confiance
+              formula = y ~ x - 1)
