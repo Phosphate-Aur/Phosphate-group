@@ -38,8 +38,8 @@ bsup
 outlier_idx <- which(data_subset_0.1$value < binf | data_subset_0.1$value > bsup)
 outlier_idx
 
-  outlier_val <- suv[outlier_idx,"value"]
-outlier_val
+#  outlier_val <- suv[outlier_idx,"value"]
+#outlier_val
 
 ##TEST STAT DE GRUBBS
 library(outliers) 
@@ -69,3 +69,108 @@ ggplot(data=courbe,aes(Concentration,Absorbance,color=Concentration))+
   theme_bw()+
   geom_smooth(method = "lm", se = FALSE,   # Ajuster une régression linéaire sans intervalle de confiance
               formula = y ~ x - 1)
+
+
+# Fit a linear model to the calibration data with intercept set to 0
+calibration_model <- lm(Absorbance ~ Concentration - 1, data = courbe)
+summary(calibration_model)
+#L'équation de notre courbe d'étalonnage est: Absorbance= 13.8327* Concentration
+
+# Generate a sequence of concentrations for prediction
+concentration_sequence <- seq(min(courbe$Concentration), max(courbe$Concentration), length.out = 100)
+
+# Create a data frame for prediction
+prediction_data <- data.frame(Concentration = concentration_sequence)
+
+# Predict absorbance values using the calibration model
+prediction_data$Predicted_Absorbance <- predict(calibration_model, newdata = prediction_data)
+
+# Plot the calibration curve and the predicted trend
+plot_calibration <- ggplot(data = courbe, aes(x = Concentration, y = Absorbance, color = Concentration)) +
+  geom_point() +
+  theme_bw() +
+  geom_line(aes(x = Concentration, y = Absorbance), linetype = "dashed", color = "black") +
+  labs(title = "Calibration Curve")
+
+# Plot the predicted trend
+plot_trend <- ggplot(data = prediction_data, aes(x = Concentration, y = Predicted_Absorbance)) +
+  geom_line(color = "red") +
+  labs(title = "Predicted Calibration Trend")
+
+# Combine the two plots using patchwork
+library(patchwork)
+combined_plot <- plot_calibration + plot_trend
+
+# Show the combined plot
+print(combined_plot)
+
+# Optional: Save the prediction data to a CSV file
+write.csv(prediction_data, "predicted_calibration_trend.csv", row.names = FALSE)
+
+###CONCENTRATION 0.01
+colnames(data_subset_0.01)[colnames(data_subset_0.01) == "value"] <- "Absorbance"
+colnames(data_subset_0.01)[colnames(data_subset_0.01) == "name"] <- "Temps"
+
+data_subset_0.01$Concentration_2 <- data_subset_0.01$Absorbance / 13.8327
+
+# Print or use the updated data_subset_0.01
+print(data_subset_0.01)
+
+ggplot(data=data_subset_0.01,aes(Temps,Concentration_2))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth()+
+  labs(title = "Phosphate concentration in the medium for an initial concentration of 0.01", x = "Time", y = "Phosphate concentration in the medium")
+
+reg<-lm(Concentration_2~ Temps ,data_subset_0.01 )
+summary(reg)
+
+mod<-lm(Concentration_2~Temps,data=data_subset_0.01)
+anova(mod)
+
+###CONCENTRATION 0.1
+data_subset_0.1<-data_subset_0.1[-nrow(data_subset_0.1), ]
+colnames(data_subset_0.1)[colnames(data_subset_0.1) == "value"] <- "Absorbance"
+colnames(data_subset_0.1)[colnames(data_subset_0.1) == "name"] <- "Temps"
+
+data_subset_0.1$Concentration_2 <- data_subset_0.1$Absorbance / 13.8327
+
+# Print or use the updated data_subset_0.1
+print(data_subset_0.1)
+
+ggplot(data=data_subset_0.1,aes(Temps,Concentration_2))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth()+
+  labs(title = "Phosphate concentration in the medium for an initial concentration of 0.1", x = "Time", y = "Phosphate concentration in the medium")
+
+reg<-lm(Concentration_2~ Temps ,data_subset_0.1 )
+summary(reg)
+
+mod<-lm(Concentration_2~Temps,data=data_subset_0.1)
+anova(mod)
+
+###CONCENTRATION 0.4
+data_subset_0.4<-data_subset_0.4[-nrow(data_subset_0.4), ]
+data_subset_0.4<-data_subset_0.4[-nrow(data_subset_0.4), ]
+data_subset_0.4<-data_subset_0.4[-nrow(data_subset_0.4), ]
+
+colnames(data_subset_0.4)[colnames(data_subset_0.4) == "value"] <- "Absorbance"
+colnames(data_subset_0.4)[colnames(data_subset_0.4) == "name"] <- "Temps"
+
+data_subset_0.4$Concentration_2 <- data_subset_0.4$Absorbance / 13.8327
+
+# Print or use the updated data_subset_0.1
+print(data_subset_0.4)
+
+ggplot(data=data_subset_0.4,aes(Temps,Concentration_2))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth()+
+  labs(title = "Phosphate concentration in the medium for an initial concentration of 0.4", x = "Time", y = "Phosphate concentration in the medium")
+
+reg<-lm(Concentration_2~ Temps ,data_subset_0.4 )
+summary(reg)
+
+mod<-lm(Concentration_2~Temps,data=data_subset_0.4)
+anova(mod)
