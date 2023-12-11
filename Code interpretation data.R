@@ -1,82 +1,16 @@
 library(tidyverse)
-data<-read.csv(file="Levure_test.csv",sep=";")
-data_2<-pivot_longer(data,cols=c(3:20))
-data_2$name<-str_split(string = data_2$name,pattern = "X",simplify=TRUE)[,2]
-data_2$name<-as.numeric(data_2$name)
-data_2$value<-as.numeric(data_2$value)
 
-ggplot(data=data_2,aes(name,value,color=Concentration))+
-  geom_point()
-
-
-data_subset_0.01<-data_2[data_2$Concentration==0.01&data_2$name<500,]
-
-ggplot(data=data_subset_0.01,aes(name,value,color=Concentration))+
-  geom_point()+
-  theme_bw()+
-  geom_smooth()
-
-
-mod<-lm(value~name,data=data_subset_0.01)
-anova(mod)
-
-data_subset_0.1<-data_2[data_2$Concentration==0.1&data_2$name<500,]
-
-ggplot(data=data_subset_0.1,aes(name,value,color=Concentration))+
-  geom_point()+
-  theme_bw()+
-  geom_smooth()
-
-##METHODE HAMPEL
-k= 3 
-# calcule la borne inf de l'intervalle binf
-binf <- median(data_subset_0.1$value) - k * mad (data_subset_0.1$value) 
-binf 
-# calcule la borne sup de l'intervalle bsup 
-bsup <- median(data_subset_0.1$value) + k * mad (data_subset_0.1$value) 
-bsup
-outlier_idx <- which(data_subset_0.1$value < binf | data_subset_0.1$value > bsup)
-outlier_idx
-
-#  outlier_val <- suv[outlier_idx,"value"]
-#outlier_val
-
-##TEST STAT DE GRUBBS
-library(outliers) 
-grubbs.test(data_subset_0.1$value, opposite = TRUE)
-
-
-mod<-lm(value~name,data=data_subset_0.1)
-anova(mod)
-
-
-data_subset_0.4<-data_2[data_2$Concentration==0.4&data_2$name<500,]
-
-ggplot(data=data_subset_0.4,aes(name,value,color=Concentration))+
-  geom_point()+
-  theme_bw()+
-  geom_smooth()
-
-colnames(data_2)[colnames(data_2) == "value"] <- "Absorbance"
-colnames(data_2)[colnames(data_2) == "name"] <- "Temps"
-
+## CALIBRATION CURVE ##
+#Importation and changment of the data 
 courbe<-read.csv(file="courbe_etalon.csv",sep=";")
 courbe$Absorbance<-as.numeric(courbe$Absorbance)
 courbe$Concentration<-as.numeric(courbe$Concentration)
-
-ggplot(data=courbe,aes(Concentration,Absorbance,color=Concentration))+
-  geom_point()+
-  theme_bw()+
-  geom_smooth(method = "lm", se = FALSE,   # Ajuster une régression linéaire sans intervalle de confiance
-              formula = y ~ x - 1)+
-  labs(title = "Calibration curve", x = "Concentration", y = "Absorbance")
-
 
 
 # Fit a linear model to the calibration data with intercept set to 0
 calibration_model <- lm(Absorbance ~ Concentration - 1, data = courbe)
 summary(calibration_model)
-#L'équation de notre courbe d'étalonnage est: Absorbance= 13.8327* Concentration
+#**The equation for our calibration curve is:* Absorbance= 13.8327* Concentration
 
 # Generate a sequence of concentrations for prediction
 concentration_sequence <- seq(min(courbe$Concentration), max(courbe$Concentration), length.out = 100)
@@ -134,23 +68,62 @@ grid.arrange(
 print(plot_calibration)
 
 
-###CONCENTRATION 0.01
+## FOR CEREVISAE ##
+# Data importation and transformation
+data<-read.csv(file="Levure_test.csv",sep=";")
+data_2<-pivot_longer(data,cols=c(3:20))
+data_2$name<-str_split(string = data_2$name,pattern = "X",simplify=TRUE)[,2]
+data_2$name<-as.numeric(data_2$name)
+data_2$value<-as.numeric(data_2$value)
+
+#plot of all the data
+ggplot(data=data_2,aes(name,value,color=Concentration))+
+  geom_point()
+
+#plot of the data for the concentration 0.01
+data_subset_0.01<-data_2[data_2$Concentration==0.01&data_2$name<500,]
+ggplot(data=data_subset_0.01,aes(name,value,color=Concentration))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth()
+
+#plot of the data for the concentration 0.1
+data_subset_0.1<-data_2[data_2$Concentration==0.1&data_2$name<500,]
+ggplot(data=data_subset_0.1,aes(name,value,color=Concentration))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth()
+
+#plot of the data for the concentration 0.4
+data_subset_0.4<-data_2[data_2$Concentration==0.4&data_2$name<500,]
+ggplot(data=data_subset_0.4,aes(name,value,color=Concentration))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth()
+
+#Changement of the names of the data set
+colnames(data_2)[colnames(data_2) == "value"] <- "Absorbance"
+colnames(data_2)[colnames(data_2) == "name"] <- "Temps"
+
+
+##**CONCENTRATION 0.01*##
+#Modification of the names
 colnames(data_subset_0.01)[colnames(data_subset_0.01) == "value"] <- "Absorbance"
 colnames(data_subset_0.01)[colnames(data_subset_0.01) == "name"] <- "Temps"
 
+#Find the concentration corresponding to the absorbance thanks to the equation of the calibration curve
 data_subset_0.01$Concentration_2 <- data_subset_0.01$Absorbance / 13.8327
 
 # Print or use the updated data_subset_0.01
 print(data_subset_0.01)
 
+#Print the Phosphate concentration in the medium for an initial concentration of 0.01 as in a fonction of time
 plot_0.01 <- ggplot(data=data_subset_0.01,aes(Temps,Concentration_2))+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
-
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.01", gp = gpar(fontsize = 12, fontface = "bold"))
-
 # Arrange the plot and title using grid.arrange
 grid.arrange(
   plot_0.01,
@@ -158,40 +131,43 @@ grid.arrange(
   ncol = 1, heights = c(9, 1)  # Adjust the heights of the plots
 )
 
+#Statistic for the initial concentration of 0.01
 reg<-lm(Concentration_2~ Temps ,data_subset_0.01 )
 summary(reg)
-
 mod<-lm(Concentration_2~Temps,data=data_subset_0.01)
 anova(mod)
-
+#Study of the residuals
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
 
-###CONCENTRATION 0.1
+
+##**CONCENTRATION 0.1*##
+#Remove outlayers and Modification of the names
 data_subset_0.1<-data_subset_0.1[-nrow(data_subset_0.1), ]
 colnames(data_subset_0.1)[colnames(data_subset_0.1) == "value"] <- "Absorbance"
 colnames(data_subset_0.1)[colnames(data_subset_0.1) == "name"] <- "Temps"
 
+#Find the concentration corresponding to the absorbance thanks to the equation of the calibration curve
 data_subset_0.1$Concentration_2 <- data_subset_0.1$Absorbance / 13.8327
 
 # Print or use the updated data_subset_0.1
 print(data_subset_0.1)
 
+#Print the Phosphate concentration in the medium for an initial concentration of 0.1 as in a fonction of time
 ggplot(data=data_subset_0.1,aes(Temps,Concentration_2))+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs(title = "Phosphate concentration in the medium for an initial concentration of 0.1", x = "Time", y = "Phosphate concentration in the medium")
 
+#Print the same graph taking into account the dilution
 plot_0.1<-ggplot(data=data_subset_0.1,aes(Temps,Concentration_2/0.2))+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
-
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
-
 # Arrange the plot and title using grid.arrange
 grid.arrange(
   plot_0.1,
@@ -199,37 +175,40 @@ grid.arrange(
   ncol = 1, heights = c(9, 1)  # Adjust the heights of the plots
 )
 
+#Statistic for the initial concentration of 0.1
 reg<-lm(Concentration_2~ Temps ,data_subset_0.1 )
 summary(reg)
-
 mod<-lm(Concentration_2~Temps,data=data_subset_0.1)
 anova(mod)
-
+#Residuals study
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
 
-###CONCENTRATION 0.4
+
+##**CONCENTRATION 0.4*##
+#Remove outlayers
 data_subset_0.4<-data_subset_0.4[-nrow(data_subset_0.4), ]
 data_subset_0.4<-data_subset_0.4[-nrow(data_subset_0.4), ]
 data_subset_0.4<-data_subset_0.4[-nrow(data_subset_0.4), ]
 
+#Modification of the names
 colnames(data_subset_0.4)[colnames(data_subset_0.4) == "value"] <- "Absorbance"
 colnames(data_subset_0.4)[colnames(data_subset_0.4) == "name"] <- "Temps"
 
+#Find the concentration corresponding to the absorbance thanks to the equation of the calibration curve
 data_subset_0.4$Concentration_2 <- data_subset_0.4$Absorbance / 13.8327
 
 # Print or use the updated data_subset_0.1
 print(data_subset_0.4)
 
+#Print the Phosphate concentration in the medium for an initial concentration of 0.1 as in a fonction of time taking into account dilution
 plot_0.4<-ggplot(data=data_subset_0.4,aes(Temps,Concentration_2/0.2))+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
-
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.4", gp = gpar(fontsize = 12, fontface = "bold"))
-
 # Arrange the plot and title using grid.arrange
 grid.arrange(
   plot_0.4,
@@ -237,70 +216,71 @@ grid.arrange(
   ncol = 1, heights = c(9, 1)  # Adjust the heights of the plots
 )
 
+#Statistic for the initial concentration of 0.4
 reg<-lm(Concentration_2~ Temps ,data_subset_0.4 )
 summary(reg)
-
 mod<-lm(Concentration_2~Temps,data=data_subset_0.4)
 anova(mod)
-
+#Residuals study
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
 
-### IMPORTATION HUMICOLA
+
+## IMPORTATION HUMICOLA ##
+#Importation and modification of the data
 levure_h<-read.csv(file="Levure_humicola.csv",sep=";")
 levure_h<-pivot_longer(levure_h,cols=c(3:25))
 levure_h$name<-str_split(string = levure_h$name,pattern = "X",simplify=TRUE)[,2]
 levure_h$name<-as.numeric(levure_h$name)
 levure_h$value<-as.numeric(levure_h$value)
 
+#Plot of all the data
 ggplot(data=levure_h,aes(name,value,color=Concentration))+
   geom_point()
 
-
+#plot of the data for the concentration 0.01
 data_h_0.01<-levure_h[levure_h$Concentration==0.01,]
-
 ggplot(data=data_h_0.01,aes(name,value,color=Concentration))+
   geom_point()+
   theme_bw()+
   geom_smooth()
 
-
-mod<-lm(value~name,data=data_subset_0.01)
-anova(mod)
-
+#plot of the data for the concentration 0.1
 data_h_0.1<-levure_h[levure_h$Concentration==0.1,]
-
 ggplot(data=data_h_0.1,aes(name,value,color=Concentration))+
   geom_point()+
   theme_bw()+
   geom_smooth()
 
+#plot of the data for the concentration 0.4
 data_h_0.4<-levure_h[levure_h$Concentration==0.4,]
-
 ggplot(data=data_h_0.4,aes(name,value,color=Concentration))+
   geom_point()+
   theme_bw()+
   geom_smooth()
 
-###CONCENTRATION 0.01
+##**CONCENTRATION 0.01*##
+#Modification of the names
 colnames(data_h_0.01)[colnames(data_h_0.01) == "value"] <- "Absorbance"
 colnames(data_h_0.01)[colnames(data_h_0.01) == "name"] <- "Temps"
 
+#Find the concentration corresponding to the absorbance thanks to the equation of the calibration curve
 data_h_0.01$Concentration_2 <- data_h_0.01$Absorbance / 13.8327
+
+#Remove outlayers
 data_h_0.01<-data_h_0.01[data_h_0.01$Concentration_2<0.029&data_h_0.01$Temps<1000,]
 data_h_0.01$Concentration_2 <- head(data_h_0.01$Concentration_2, -1)
 # Print or use the updated data_subset_0.01
 print(data_subset_0.01)
 
+#Print the Phosphate concentration in the medium for an initial concentration of 0.01 as in a fonction of time
 plot_0.01 <- ggplot(data=data_h_0.01,aes(Temps,Concentration_2))+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
-
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.01", gp = gpar(fontsize = 12, fontface = "bold"))
-
 # Arrange the plot and title using grid.arrange
 grid.arrange(
   plot_0.01,
@@ -308,41 +288,46 @@ grid.arrange(
   ncol = 1, heights = c(9, 1)  # Adjust the heights of the plots
 )
 
+#Statistic analysis for the initial concentration of 0.01g/l
 reg<-lm(Concentration_2~ Temps ,data_h_0.01 )
 summary(reg)
 mod<-lm(Concentration_2~Temps,data=data_h_0.01)
 anova(mod)
+#Residuals study
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
 
 
-###CONCENTRATION 0.1
+##**CONCENTRATION 0.1*##
+#Modification of the names
 colnames(data_h_0.1)[colnames(data_h_0.1) == "value"] <- "Absorbance"
 colnames(data_h_0.1)[colnames(data_h_0.1) == "name"] <- "Temps"
 
+#Find the concentration corresponding to the absorbance thanks to the equation of the calibration curve
 data_h_0.1$Concentration_2 <- data_h_0.1$Absorbance / 13.8327
+
+#Remove outlayers
 data_h_0.1<-data_h_0.1[data_h_0.1$Concentration_2<0.039&data_h_0.1$Temps<1000,]
 
 # Print or use the updated data_subset_0.1
 print(data_h_0.1)
 
+#Print the Phosphate concentration in the medium for an initial concentration of 0.1 as in a fonction of time
 ggplot(data=data_h_0.1,aes(Temps,Concentration_2))+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs(title = "Phosphate concentration in the medium for an initial concentration of 0.1", x = "Time", y = "Phosphate concentration in the medium")
 
+#Print the same plot taking into account dilution
 plot_0.1<-ggplot(data=data_h_0.1,aes(Temps,Concentration_2/0.2))+
   ylim(0,0.1)+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
-
-
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
-
 # Arrange the plot and title using grid.arrange
 grid.arrange(
   plot_0.1,
@@ -350,32 +335,38 @@ grid.arrange(
   ncol = 1, heights = c(9, 1)  # Adjust the heights of the plots
 )
 
+#Statistical analysis for the initial concentration of 0.1g/l
 reg<-lm(Concentration_2~ Temps ,data_h_0.1 )
 summary(reg)
 mod<-lm(Concentration_2~Temps,data=data_h_0.1)
 anova(mod)
+#Residuals study
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
 
-###CONCENTRATION 0.4
+
+##**CONCENTRATION 0.4*##
+#Modification of the names
 colnames(data_h_0.4)[colnames(data_h_0.4) == "value"] <- "Absorbance"
 colnames(data_h_0.4)[colnames(data_h_0.4) == "name"] <- "Temps"
 
+#Find the concentration corresponding to the absorbance thanks to the equation of the calibration curve
 data_h_0.4$Concentration_2 <- data_h_0.4$Absorbance / 13.8327
+
+#Remove outlayers
 data_h_0.4<-data_h_0.4[data_h_0.4$Concentration_2<0.039&data_h_0.4$Temps<1000,]
 
 # Print or use the updated data_subset_0.1
 print(data_h_0.4)
 
+#Print the Phosphate concentration in the medium for an initial concentration of 0.4 as in a fonction of time taking into account dilution
 plot_0.4<-ggplot(data=data_h_0.4,aes(Temps,Concentration_2/0.2))+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
-
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.4", gp = gpar(fontsize = 12, fontface = "bold"))
-
 # Arrange the plot and title using grid.arrange
 grid.arrange(
   plot_0.4,
@@ -383,10 +374,32 @@ grid.arrange(
   ncol = 1, heights = c(9, 1)  # Adjust the heights of the plots
 )
 
+#Statistical analysis for the initial concentration of 0.4g/l
 reg<-lm(Concentration_2~ Temps ,data_h_0.4 )
 summary(reg)
 mod<-lm(Concentration_2~Temps,data=data_h_0.4)
 anova(mod)
+#Residuals study
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
+
+
+## METHOD TO IDENTIFY OUTLIER ##
+##METHODE HAMPEL
+k= 3 
+# calcule la borne inf de l'intervalle binf
+binf <- median(data_subset_0.1$value) - k * mad (data_subset_0.1$value) 
+binf 
+# calcule la borne sup de l'intervalle bsup 
+bsup <- median(data_subset_0.1$value) + k * mad (data_subset_0.1$value) 
+bsup
+outlier_idx <- which(data_subset_0.1$value < binf | data_subset_0.1$value > bsup)
+outlier_idx
+
+#  outlier_val <- suv[outlier_idx,"value"]
+#outlier_val
+
+##TEST STAT DE GRUBBS
+library(outliers) 
+grubbs.test(data_subset_0.1$value, opposite = TRUE)
