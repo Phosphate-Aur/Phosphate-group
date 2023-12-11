@@ -243,12 +243,6 @@ summary(reg)
 mod<-lm(Concentration_2~Temps,data=data_subset_0.4)
 anova(mod)
 
-ggplot(data=data_subset_0.4,aes(Temps,Concentration_2/0.2))+
-  geom_point()+
-  theme_bw()+
-  geom_smooth()+
-  labs(title = "Phosphate concentration in the medium for an initial concentration of 0.1", x = "Time", y = "Phosphate concentration in the medium")
-
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
@@ -294,7 +288,8 @@ colnames(data_h_0.01)[colnames(data_h_0.01) == "value"] <- "Absorbance"
 colnames(data_h_0.01)[colnames(data_h_0.01) == "name"] <- "Temps"
 
 data_h_0.01$Concentration_2 <- data_h_0.01$Absorbance / 13.8327
-data_h_0.01<-data_h_0.01[data_h_0.01$Concentration_2<0.08,]
+data_h_0.01<-data_h_0.01[data_h_0.01$Concentration_2<0.029&data_h_0.01$Temps<1000,]
+data_h_0.01$Concentration_2 <- head(data_h_0.01$Concentration_2, -1)
 # Print or use the updated data_subset_0.01
 print(data_subset_0.01)
 
@@ -315,10 +310,8 @@ grid.arrange(
 
 reg<-lm(Concentration_2~ Temps ,data_h_0.01 )
 summary(reg)
-
 mod<-lm(Concentration_2~Temps,data=data_h_0.01)
 anova(mod)
-
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
@@ -329,7 +322,7 @@ colnames(data_h_0.1)[colnames(data_h_0.1) == "value"] <- "Absorbance"
 colnames(data_h_0.1)[colnames(data_h_0.1) == "name"] <- "Temps"
 
 data_h_0.1$Concentration_2 <- data_h_0.1$Absorbance / 13.8327
-data_h_0.1<-data_h_0.1[data_h_0.1$Concentration_2<0.05,]
+data_h_0.1<-data_h_0.1[data_h_0.1$Concentration_2<0.039&data_h_0.1$Temps<1000,]
 
 # Print or use the updated data_subset_0.1
 print(data_h_0.1)
@@ -341,10 +334,12 @@ ggplot(data=data_h_0.1,aes(Temps,Concentration_2))+
   labs(title = "Phosphate concentration in the medium for an initial concentration of 0.1", x = "Time", y = "Phosphate concentration in the medium")
 
 plot_0.1<-ggplot(data=data_h_0.1,aes(Temps,Concentration_2/0.2))+
+  ylim(0,0.1)+
   geom_point()+
   theme_bw()+
   geom_smooth()+
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
+
 
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
 
@@ -357,10 +352,8 @@ grid.arrange(
 
 reg<-lm(Concentration_2~ Temps ,data_h_0.1 )
 summary(reg)
-
 mod<-lm(Concentration_2~Temps,data=data_h_0.1)
 anova(mod)
-
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
@@ -370,6 +363,7 @@ colnames(data_h_0.4)[colnames(data_h_0.4) == "value"] <- "Absorbance"
 colnames(data_h_0.4)[colnames(data_h_0.4) == "name"] <- "Temps"
 
 data_h_0.4$Concentration_2 <- data_h_0.4$Absorbance / 13.8327
+data_h_0.4<-data_h_0.4[data_h_0.4$Concentration_2<0.039&data_h_0.4$Temps<1000,]
 
 # Print or use the updated data_subset_0.1
 print(data_h_0.4)
@@ -391,16 +385,8 @@ grid.arrange(
 
 reg<-lm(Concentration_2~ Temps ,data_h_0.4 )
 summary(reg)
-
 mod<-lm(Concentration_2~Temps,data=data_h_0.4)
 anova(mod)
-
-ggplot(data=data_h_0.4,aes(Temps,Concentration_2/0.2))+
-  geom_point()+
-  theme_bw()+
-  geom_smooth()+
-  labs(title = "Phosphate concentration in the medium for an initial concentration of 0.1", x = "Time", y = "Phosphate concentration in the medium")
-
 res <- reg$residuals
 bartlett.test(res)
 shapiro.test(res)
