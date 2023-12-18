@@ -53,7 +53,7 @@ plot_calibration <- ggplot(data = courbe, aes(x = Concentration, y = Absorbance,
   theme_bw() +
   labs(x = "Concentration (mMol/l)", y = "Absorbance") +
   geom_smooth(method = "lm", se = FALSE, formula = y ~ x - 1) +
-  annotate("text", x = 0.05, y = 1.2, label = sprintf("R-squared: %.4f", r_squared_value), color = "red")
+  annotate("text", x = 0.05, y = 1.2, label = sprintf("R² = %.4f", r_squared_value), color = "red")
 
 # Create a title grob using textGrob
 title_grob <- textGrob("Calibration Curve", gp = gpar(fontsize = 12, fontface = "bold"))
@@ -71,7 +71,7 @@ print(plot_calibration)
 
 ## FOR CEREVISAE ##
 # Data importation and transformation
-data<-read.csv(file="Levure_test.csv",sep=";")
+data<-read.csv(file="cerevisae.csv",sep=";")
 data_2<-pivot_longer(data,cols=c(3:20))
 data_2$name<-str_split(string = data_2$name,pattern = "X",simplify=TRUE)[,2]
 data_2$name<-as.numeric(data_2$name)
@@ -145,8 +145,8 @@ plot_0.01 <- ggplot(data=data_subset_0.01, aes(Temps, Concentration_2)) +
   scale_y_continuous(limits=c(0.001,0.4), trans="log10") +
   geom_smooth(method="lm", se=FALSE) +  # Utilization of the method="lm" to fit a straight line
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)") +
-  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %s", slope), color = "blue", hjust=0)+
-  annotate("text", x = 100, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value), color = "black")
+  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
+  annotate("text", x = 100, y = 0.002, label = sprintf("R² = %.4f", r_squared_value), color = "black")
 
 
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.01", gp = gpar(fontsize = 12, fontface = "bold"))
@@ -197,10 +197,10 @@ plot_0.01_combined <- ggplot(data = data_subset_0.01_bis, aes(Temps, Concentrati
   geom_smooth(data = data_subset_0.01_before_100, method = "lm", se = FALSE, color = "blue") +
   geom_smooth(data = data_subset_0.01_after_100, method = "lm", se = FALSE, color = "red") +
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")+
-  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %s", slope1), color = "blue", hjust=0)+
-  annotate("text", x = 200, y = 0.001, label = sprintf("Slope: %s", slope2), color = "red", hjust=0)+
-  annotate("text", x = 100, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value1), color = "black")+
-  annotate("text", x = 300, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value2), color = "black")
+  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %.4e", slope1), color = "blue", hjust=0)+
+  annotate("text", x = 200, y = 0.001, label = sprintf("Slope: %.4e", slope2), color = "red", hjust=0)+
+  annotate("text", x = 100, y = 0.002, label = sprintf("R²= %.4f", r_squared_value1), color = "black")+
+  annotate("text", x = 300, y = 0.002, label = sprintf("R² = %.4f", r_squared_value2), color = "black")
 
 
 # Title for the combined plot
@@ -224,8 +224,8 @@ data_subset_0.1$Concentration_2 <- data_subset_0.1$Absorbance / 13.8327
 
 
 outlayer_S_0.1 <- data_subset_0.1 %>%
-  filter(Concentration_2 < 0.039, Temps < 1000, !(Temps == 328.33 & Concentration_2 > 0.018))
-data_subset_0.1 <- subset(data_subset_0.1, Concentration_2 < 0.039 & Temps < 1000 & !(Temps == 328.33 & Concentration_2 > 0.018))
+  filter(Concentration_2 < 0.039, Temps < 400, !(Temps == 328.33 & Concentration_2 > 0.018))
+data_subset_0.1 <- subset(data_subset_0.1, Concentration_2 < 0.039 & Temps < 400 & !(Temps == 328.33 & Concentration_2 > 0.018))
 
 
 
@@ -281,10 +281,10 @@ plot_0.1_combined <- ggplot(data = data_subset_0.1, aes(Temps, Concentration_2/0
   geom_smooth(data = data_subset_0.1_before_200, method = "lm", se = FALSE, color = "blue") +
   geom_smooth(data = data_subset_0.1_after_200, method = "lm", se = FALSE, color = "red") +
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")+
-  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %s", slope1), color = "blue", hjust=0)+
-  annotate("text", x = 200, y = 0.001, label = sprintf("Slope: %s", slope2), color = "red", hjust=0)+
-  annotate("text", x = 100, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value1), color = "black")+
-  annotate("text", x = 300, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value2), color = "black")
+  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %.4e", slope1), color = "blue", hjust=0)+
+  annotate("text", x = 200, y = 0.001, label = sprintf("Slope: %.4e", slope2), color = "red", hjust=0)+
+  annotate("text", x = 50, y = 0.002, label = sprintf("R² = %.4f", r_squared_value1), color = "black")+
+  annotate("text", x = 250, y = 0.002, label = sprintf("R² = %.4f", r_squared_value2), color = "black")
 
 
 # Title for the combined plot
@@ -348,8 +348,8 @@ plot_0.4<-ggplot(data=data_subset_0.4,aes(Temps,Concentration_2/0.2))+
   scale_y_continuous(limits=c(0.01,0.4), trans="log10") +
   geom_smooth(method="lm", se=FALSE) +  # Utilization of the method="lm" to fit a straight line
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")+
-  annotate("text", x = 10, y = 0.05, label = sprintf("Slope: %s", slope), color = "blue", hjust=0)+
-  annotate("text", x = 50, y = 0.02, label = sprintf("R-squared: %.4f", r_squared_value), color = "black")
+  annotate("text", x = 10, y = 0.05, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
+  annotate("text", x = 50, y = 0.02, label = sprintf("R² = %.4f", r_squared_value), color = "black")
 
 
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.4", gp = gpar(fontsize = 12, fontface = "bold"))
@@ -435,7 +435,6 @@ data_h_0.01$Concentration_2 <- data_h_0.01$Absorbance / 13.8327
 
 #Remove outlayers
 data_h_0.01<-data_h_0.01[data_h_0.01$Concentration_2<0.029&data_h_0.01$Temps<1000,]
-data_h_0.01$Concentration_2 <- head(data_h_0.01$Concentration_2, -1)
 # Filter the data by excluding values at time 790 with concentration > 0.015
 # and values at time 493 with concentration > 0.015
 data_h_0.01_filtered <- subset(data_h_0.01, !(Temps == 790 & Concentration_2 > 0.015) & !(Temps == 493 & Concentration_2 > 0.015))
@@ -457,8 +456,8 @@ plot_0.01_h <- ggplot(data=data_h_0.01_filtered,aes(Temps,Concentration_2))+
   scale_y_continuous(limits=c(0.001,0.4), trans="log10") +
   geom_smooth(method="lm", se=FALSE) +  # Utilization of the method="lm" to fit a straight line
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")+
-  annotate("text", x = 10, y = 0.05, label = sprintf("Slope: %s", slope), color = "blue", hjust=0)+
-  annotate("text", x = 200, y = 0.02, label = sprintf("R-squared: %.4f", r_squared_value), color = "black")
+  annotate("text", x = 10, y = 0.05, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
+  annotate("text", x = 200, y = 0.02, label = sprintf("R² = %.4f", r_squared_value), color = "black")
 
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.01", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
@@ -470,9 +469,9 @@ grid.arrange(
 
 
 #Statistic analysis for the initial concentration of 0.01g/l
-reg<-lm(log(Concentration_2)~ Temps ,data_h_0.01 )
+reg<-lm(Concentration_2~ Temps ,data_h_0.01 )
 summary(reg)
-mod<-lm(log(Concentration_2)~Temps,data=data_h_0.01)
+mod<-lm(Concentration_2~Temps,data=data_h_0.01)
 anova(mod)
 #Residuals study
 res <- reg$residuals
@@ -515,8 +514,8 @@ plot_0.1<-ggplot(data=data_h_0.1,aes(Temps,Concentration_2/0.1))+
   scale_y_continuous(limits=c(0.001,0.4), trans="log10") +
   geom_smooth(data = data_h_0.1, method = "lm", se = FALSE, color = "blue") +
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")+
-  annotate("text", x = 0.001, y = 0.001, label = sprintf("Slope: %s", slope), color = "blue", hjust=0)+
-  annotate("text", x = 200, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value), color = "black")
+  annotate("text", x = 0.001, y = 0.001, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
+  annotate("text", x = 200, y = 0.002, label = sprintf("R² = %.4f", r_squared_value), color = "black")
 
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
@@ -535,7 +534,7 @@ mod<-lm(Concentration_2~Temps,data=data_h_0.1)
 anova(mod)
 #Residuals study
 res <- reg$residuals
-bartlett.test(res)
+#bartlett.test(res)
 shapiro.test(res)
 
 
@@ -572,21 +571,21 @@ data_h_0.4_filtered <- subset(data_h_0.4, !(Temps == 493 & Concentration_2 > 0.0
 
 
 # Create two subsets of data for times less than and greater than or equal to 174.33 minutes
-data_h_0.4_before_174.33 <- subset(data_h_0.4_filtered,Temps <= 174.33)
-data_h_0.4_after_174.33 <- subset(data_h_0.4_filtered, Temps >= 174.33)
+data_h_0.4_before_226.33 <- subset(data_h_0.4_filtered,Temps <= 226.33)
+data_h_0.4_after_226.33 <- subset(data_h_0.4_filtered, Temps >= 226.33)
 
 
 # Extract the linear model from the plot
-lm_model <- lm(Concentration_2 ~ Temps, data = data_h_0.4_before_174.33)
+lm_model <- lm(Concentration_2 ~ Temps, data = data_h_0.4_before_226.33)
 # Extract the slope coefficient from the linear model summary
-slope <- summary(lm_model)$coefficients[2, "Estimate"]
+slope1 <- summary(lm_model)$coefficients[2, "Estimate"]
 print(slope1)
 r_squared_value1 <- summary(lm_model)$r.squared
 
 # Extract the linear model from the plot
-lm_model <- lm(Concentration_2 ~ Temps, data = data_h_0.4_after_174.33)
+lm_model <- lm(Concentration_2 ~ Temps, data = data_h_0.4_after_226.33)
 # Extract the slope coefficient from the linear model summary
-slope <- summary(lm_model)$coefficients[2, "Estimate"]
+slope2 <- summary(lm_model)$coefficients[2, "Estimate"]
 print(slope2)
 r_squared_value2 <- summary(lm_model)$r.squared
 
@@ -597,13 +596,13 @@ plot_0.4_combined <- ggplot(data = data_h_0.4_filtered, aes(Temps, Concentration
   geom_point() +
   theme_bw() +
   scale_y_continuous(limits=c(0.001,0.4), trans="log10") +
-  geom_smooth(data = data_h_0.4_before_174.33, method = "lm", se = FALSE, color = "blue") +
-  geom_smooth(data = data_h_0.4_after_174.33, method = "lm", se = FALSE, color = "red") +
+  geom_smooth(data = data_h_0.4_before_226.33, method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(data = data_h_0.4_after_226.33, method = "lm", se = FALSE, color = "red") +
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")+
-  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %s", slope1), color = "blue", hjust=0)+
-  annotate("text", x = 400, y = 0.001, label = sprintf("Slope: %s", slope2), color = "red", hjust=0)+
-  annotate("text", x = 100, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value1), color = "black")+
-  annotate("text", x = 500, y = 0.002, label = sprintf("R-squared: %.4f", r_squared_value2), color = "black")
+  annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %.4e", slope1), color = "blue", hjust=0)+
+  annotate("text", x = 400, y = 0.001, label = sprintf("Slope: %.4e", slope2), color = "red", hjust=0)+
+  annotate("text", x = 100, y = 0.002, label = sprintf("R² = %.4f", r_squared_value1), color = "black")+
+  annotate("text", x = 500, y = 0.002, label = sprintf("R² = %.4f", r_squared_value2), color = "black")
 
 # Title for the combined plot
 title_grob <- textGrob("Phosphate concentration in the medium for an initial concentration of 0.4", gp = gpar(fontsize = 12, fontface = "bold"))
@@ -617,12 +616,12 @@ grid.arrange(
 
 #Statistical analysis for the initial concentration of 0.4g/l
 reg<-lm(Concentration_2~ Temps ,data_h_0.4 )
-ummary(reg)
+summary(reg)
 mod<-lm(Concentration_2~Temps,data=data_h_0.4)
 anova(mod)
 #Residuals study
 res <- reg$residuals
-bartlett.test(res)
+#bartlett.test(res)
 shapiro.test(res)
 
 
@@ -700,12 +699,12 @@ grid.arrange(
 ##METHODE HAMPEL
 k= 3 
 # calcule la borne inf de l'intervalle binf
-binf <- median(data_subset_0.1$value) - k * mad (data_subset_0.1$value) 
+binf <- median(data_subset_0.1$Concentration_2) - k * mad (data_subset_0.1$Concentration_2) 
 binf 
 # calcule la borne sup de l'intervalle bsup 
-bsup <- median(data_subset_0.1$value) + k * mad (data_subset_0.1$value) 
+bsup <- median(data_subset_0.1$Concentration_2) + k * mad (data_subset_0.1$Concentration_2) 
 bsup
-outlier_idx <- which(data_subset_0.1$value < binf | data_subset_0.1$value > bsup)
+outlier_idx <- which(data_subset_0.1$Concentration_2 < binf | data_subset_0.1$Concentration_2 > bsup)
 outlier_idx
 
 #  outlier_val <- suv[outlier_idx,"value"]
@@ -713,7 +712,7 @@ outlier_idx
 
 ##TEST STAT DE GRUBBS
 library(outliers) 
-grubbs.test(data_subset_0.1$value, opposite = TRUE)
+grubbs.test(data_subset_0.1$Concentration_2, opposite = TRUE)
 
 ## CACUL OF THE OPTICAL DENSITY OF THE YEAST
 #Importation and changment of the data 
