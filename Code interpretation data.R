@@ -55,6 +55,9 @@ plot_calibration <- ggplot(data = courbe, aes(x = Concentration, y = Absorbance,
   geom_smooth(method = "lm", se = FALSE, formula = y ~ x - 1) +
   annotate("text", x = 0.05, y = 1.2, label = sprintf("R² = %.4f", r_squared_value), color = "red")
 
+# Set the aspect ratio to make the plot square
+plot_calibration <- plot_calibration + theme(aspect.ratio = 1)
+
 # Create a title grob using textGrob
 title_grob <- textGrob("Calibration Curve", gp = gpar(fontsize = 12, fontface = "bold"))
 
@@ -124,6 +127,8 @@ plot_0.01 <- ggplot(data=data_subset_0.01, aes(Temps, Concentration_2)) +
   theme_bw() +
   geom_smooth(method="lm", se=FALSE) +  # Utilization of the method="lm" to fit a straight line
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")
+# Set the aspect ratio to make the plot square
+plot_0.01 <- plot_0.01 + theme(aspect.ratio = 1)
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.01", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
 grid.arrange(
@@ -147,8 +152,8 @@ plot_0.01 <- ggplot(data=data_subset_0.01, aes(Temps, Concentration_2)) +
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)") +
   annotate("text", x = 10, y = 0.001, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
   annotate("text", x = 100, y = 0.002, label = sprintf("R² = %.4f", r_squared_value), color = "black")
-
-
+# Set the aspect ratio to make the plot square
+plot_0.01 <- plot_0.01 + theme(aspect.ratio = 1)
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.01", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
 grid.arrange(
@@ -202,6 +207,8 @@ plot_0.01_combined <- ggplot(data = data_subset_0.01_bis, aes(Temps, Concentrati
   annotate("text", x = 100, y = 0.002, label = sprintf("R²= %.4f", r_squared_value1), color = "black")+
   annotate("text", x = 300, y = 0.002, label = sprintf("R² = %.4f", r_squared_value2), color = "black")
 
+# Set the aspect ratio to make the plot square
+plot_0.01_combined <- plot_0.01_combined + theme(aspect.ratio = 1)
 
 # Title for the combined plot
 title_grob <- textGrob("Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
@@ -245,6 +252,10 @@ plot_0.1<-ggplot(data=data_subset_0.1,aes(Temps,Concentration_2/0.2))+
   theme_bw()+
   geom_smooth() +  
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
+
+# Set the aspect ratio to make the plot square
+plot_0.1 <- plot_0.1 + theme(aspect.ratio = 1)
+
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
 grid.arrange(
@@ -286,6 +297,8 @@ plot_0.1_combined <- ggplot(data = data_subset_0.1, aes(Temps, Concentration_2/0
   annotate("text", x = 50, y = 0.002, label = sprintf("R² = %.4f", r_squared_value1), color = "black")+
   annotate("text", x = 250, y = 0.002, label = sprintf("R² = %.4f", r_squared_value2), color = "black")
 
+# Set the aspect ratio to make the plot square
+plot_0.1_combined <- plot_0.1_combined + theme(aspect.ratio = 1)
 
 # Title for the combined plot
 title_grob <- textGrob("Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
@@ -351,6 +364,8 @@ plot_0.4<-ggplot(data=data_subset_0.4,aes(Temps,Concentration_2/0.2))+
   annotate("text", x = 10, y = 0.05, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
   annotate("text", x = 50, y = 0.02, label = sprintf("R² = %.4f", r_squared_value), color = "black")
 
+# Set the aspect ratio to make the plot square
+plot_0.4 <- plot_0.4 + theme(aspect.ratio = 1)
 
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.4", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
@@ -459,6 +474,9 @@ plot_0.01_h <- ggplot(data=data_h_0.01_filtered,aes(Temps,Concentration_2))+
   annotate("text", x = 10, y = 0.05, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
   annotate("text", x = 200, y = 0.02, label = sprintf("R² = %.4f", r_squared_value), color = "black")
 
+# Set the aspect ratio to make the plot square
+plot_0.01_h <- plot_0.01_h + theme(aspect.ratio = 1)
+
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.01", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
 grid.arrange(
@@ -517,6 +535,9 @@ plot_0.1<-ggplot(data=data_h_0.1,aes(Temps,Concentration_2/0.1))+
   annotate("text", x = 0.001, y = 0.001, label = sprintf("Slope: %.4e", slope), color = "blue", hjust=0)+
   annotate("text", x = 200, y = 0.002, label = sprintf("R² = %.4f", r_squared_value), color = "black")
 
+# Set the aspect ratio to make the plot square
+plot_0.1 <- plot_0.1 + theme(aspect.ratio = 1)
+
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.1", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
 grid.arrange(
@@ -524,7 +545,6 @@ grid.arrange(
   title_grob,
   ncol = 1, heights = c(9, 1)  # Adjust the heights of the plots
 )
-
 
 
 #Statistical analysis for the initial concentration of 0.1g/l
@@ -558,6 +578,7 @@ plot_0.4<-ggplot(data=data_h_0.4,aes(Temps,Concentration_2/0.04))+
   theme_bw()+
   geom_smooth(method="lm", se=FALSE) +  # Utilization of the method="lm" to fit a straight line
   labs( x = "Time (minutes)", y = "Phosphate concentration in the medium (mMol/l)")
+
 title_grob <- textGrob(" Phosphate concentration in the medium for an initial concentration of 0.4", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
 grid.arrange(
@@ -604,6 +625,9 @@ plot_0.4_combined <- ggplot(data = data_h_0.4_filtered, aes(Temps, Concentration
   annotate("text", x = 100, y = 0.002, label = sprintf("R² = %.4f", r_squared_value1), color = "black")+
   annotate("text", x = 500, y = 0.002, label = sprintf("R² = %.4f", r_squared_value2), color = "black")
 
+# Set the aspect ratio to make the plot square
+plot_0.4_combined <- plot_0.4_combined + theme(aspect.ratio = 1)
+
 # Title for the combined plot
 title_grob <- textGrob("Phosphate concentration in the medium for an initial concentration of 0.4", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title using grid.arrange
@@ -640,6 +664,8 @@ plot_combined <- ggplot(data = combined_data, aes(Temps, Concentration_2, color 
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")
 # Add a legend
 plot_combined <- plot_combined + scale_color_manual(name= "Caption", values = c("S.cerevisae" = "blue", "V.humicola" = "red"))
+# Set the aspect ratio to make the plot square
+plot_combined <- plot_combined + theme(aspect.ratio = 1)
 # Add title
 title_grob <- textGrob("Comparison of phosphate concentration in the medium for an initial concentration of 0.01\n between the yeasts S.cerevisae and V.humicola", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title
@@ -663,6 +689,8 @@ plot_combined <- ggplot(data = combined_data, aes(Temps, Concentration_2/0.2, co
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")
 # Add a legend
 plot_combined <- plot_combined + scale_color_manual(name= "Caption", values = c("S.cerevisae" = "blue", "V.humicola" = "red"))
+# Set the aspect ratio to make the plot square
+plot_combined <- plot_combined + theme(aspect.ratio = 1)
 # Add title
 title_grob <- textGrob("Comparison of phosphate concentration in the medium for an initial concentration of 0.1\n between the yeasts S.cerevisae and V.humicola", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title
@@ -686,6 +714,8 @@ plot_combined <- ggplot(data = combined_data, aes(Temps, Concentration_2/0.2, co
   labs(x = "Time (minutes)", y = "Phosphate concentration in the medium\n (mMol/l)")
 # Add a legend
 plot_combined <- plot_combined + scale_color_manual(name= "Caption", values = c("S.cerevisae" = "blue", "V.humicola" = "red"))
+# Set the aspect ratio to make the plot square
+plot_combined <- plot_combined + theme(aspect.ratio = 1)
 # Add title
 title_grob <- textGrob("Comparison of phosphate concentration in the medium for an initial concentration of 0.4\n between the yeasts S.cerevisae and V.humicola", gp = gpar(fontsize = 12, fontface = "bold"))
 # Arrange the plot and title
